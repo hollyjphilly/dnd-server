@@ -21,6 +21,10 @@
           const url = event?.target?.url || "no url";
           p.textContent = url;
         };
+
+        ws.onmessage = function(event) {
+          console.log(event);
+        };
       })();
     </script>
   </body>
