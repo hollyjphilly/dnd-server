@@ -49,9 +49,9 @@ const CONTENT_EVENT = 'CONTENT_EVENT';
 function broadcastMessage(json) {
   const data = JSON.stringify(json);
   for(let userId in clients) {
-    const client = clients[userId];
-    if(client.readyState === WebSocket.OPEN) {
-      client.send(data)
+    const singleClient = clients[userId];
+    if(singleClient.readyState === WebSocket.OPEN) {
+      singleClient.send(data)
     }
   }
 }
