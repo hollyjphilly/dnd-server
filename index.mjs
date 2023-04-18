@@ -7,7 +7,8 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 config()
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(process.env.MONGO_URI, {
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -20,8 +21,9 @@ run(client).catch(console.dir);
 const server = http.createServer();
 const wss = new WebSocketServer({ server });
 
-server.listen(8080, () => {
-  console.log('Server is listening on port 8080');
+const port = process.env.PORT;
+server.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
 
 // active connections
