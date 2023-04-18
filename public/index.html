@@ -25,6 +25,14 @@
         ws.onmessage = function(event) {
           console.log(event);
         };
+
+        ws.onclose = function(event) {
+          console.log(event);
+        };
+
+        ws.onerror = function(event) {
+          console.log(event);
+        };
       })();
     </script>
   </body>
