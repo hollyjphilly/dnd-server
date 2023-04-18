@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>dnd-server</title>
+  </head>
+  <body>
+    <h1>Websocket connection url</h1>
+    <p id="url"></p>
+    <script>
+      (function() {
+        const p = document.getElementById('url');
+
+        // will not use tls if the connection is not made over https
+        const protocol = window.location.protocol.includes('https') ? 'wss': 'ws'
+        const ws = new WebSocket(`${protocol}://${location.host}`);
+
+
+        ws.onopen = function(event) {
+          console.log(event?.target?.url);
+          const url = event?.target?.url || "no url";
+          p.textContent = url;
+        };
+      })();
+    </script>
+  </body>
+</html>

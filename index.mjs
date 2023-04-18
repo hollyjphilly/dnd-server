@@ -1,5 +1,8 @@
 import { config } from 'dotenv';
-import http from 'http';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createServer } from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { run, findOnePartyByName, updateOnePartyByName } from './mongo.mjs';
@@ -18,7 +21,12 @@ const client = new MongoClient(uri, {
 
 run(client).catch(console.dir);
 
-const server = http.createServer();
+const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '/public')));
+
+const server = createServer(app);
 const wss = new WebSocketServer({ server });
 
 const port = process.env.PORT;
@@ -100,7 +108,7 @@ wss.on("connection", function connection(ws) {
 
   // store new user's ws connection
   clients[userId] = ws;
-  console.log(`${userId} connected.`)
+  console.log(`${userId} connected.`);
 
   ws.on("message", (message) => handleMessage(message, userId));
   ws.on('close', () => handleDisconnect(userId));
